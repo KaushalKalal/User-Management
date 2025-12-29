@@ -6,6 +6,7 @@ import {
   UseGuards,
   Delete,
   Param,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -37,5 +38,23 @@ export class UsersController {
   @Delete(':id')
   softDelete(@Param('id') id: string) {
     return this.usersService.softDelete(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('search')
+  search(@Query('query') query: string) {
+    return this.usersService.searchUsers(query);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  paginate(@Query('page') page = '1') {
+    return this.usersService.paginateUsers(Number(page));
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('hard/:id')
+  hardDelete(@Param('id') id: string) {
+    return this.usersService.hardDelete(id);
   }
 }

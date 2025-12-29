@@ -66,4 +66,40 @@ export class UsersService {
       { new: true },
     );
   }
+
+  async searchUsers(query: string) {
+    return this.userModel
+      .find({
+        isDeleted: false,
+        $or: [
+          { name: { $regex: query, $options: 'i' } },
+          { email: { $regex: query, $options: 'i' } },
+        ],
+      })
+      .select('-password');
+  }
+
+  async paginateUsers(page = 1) {
+    const limit = 5;
+    const skip = (page - 1) * limit;
+
+    const users = await this.userModel
+      .find({ isDeleted: false })
+      .skip(skip)
+      .limit(limit)
+      .select('-password');
+
+    const total = await this.userModel.countDocuments({ isDeleted: false });
+
+    return {
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      users,
+    };
+  }
+
+  async hardDelete(id: string) {
+    return this.userModel.findByIdAndDelete(id);
+  }
 }
