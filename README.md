@@ -1,5 +1,5 @@
-1. User Management & Authentication API – NestJS
- This is a REST API built using NestJS, MongoDB and JWT Authentication that supports user registration, login, role-based authorization (admin & user), profile management, searching, pagination, soft & hard delete functionality with proper validation, middleware and interceptors.
+1. User Management and Authentication
+This is a REST API built using NestJS, MongoDB and JWT Authentication that supports user registration, login, role-based authorization (admin & user), profile management, searching, pagination, soft & hard delete functionality with proper validation, middleware and interceptors.
 
 2. Create .env file
 MONGO_URI=mongodb://127.0.0.1:27017/user-management
