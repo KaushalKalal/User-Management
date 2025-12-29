@@ -1,36 +1,74 @@
-### Get User Profile (JWT Protected)
-# GET http://localhost:3000/users/profile
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTI3NTZhNDQ5NTI1NDUzZTQ1MjE4ZiIsImlhdCI6MTc2NzAxMzczNiwiZXhwIjoxNzY3MTAwMTM2fQ.6nyjNrDrM-2uSdV0aYiZ6xptLSX5YVAo0x41MJNzNXQ
-# Content-Type: application/json
-
-# PUT http://localhost:3000/users/profile
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTI3NTZhNDQ5NTI1NDUzZTQ1MjE4ZiIsImlhdCI6MTc2NzAxMzczNiwiZXhwIjoxNzY3MTAwMTM2fQ.6nyjNrDrM-2uSdV0aYiZ6xptLSX5YVAo0x41MJNzNXQ
-# Content-Type: application/json
-
-# {
-#   "email": "kaushal@gmail.com"
-# }
-
-
-### User Login
-# POST http://localhost:3000/auth/login
-# Content-Type: application/json
-
-# {
-#   "email": "k@gmail.com",
-#   "password": "123456"
-# }
-
-
-
-### Get All Users (Admin Only)
-# GET http://localhost:3000/users
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTI3NTZhNDQ5NTI1NDUzZTQ1MjE4ZiIsImlhdCI6MTc2NzAxMzczNiwiZXhwIjoxNzY3MTAwMTM2fQ.6nyjNrDrM-2uSdV0aYiZ6xptLSX5YVAo0x41MJNzNXQ
-# Content-Type: application/json
-
-
-### Soft Delete User (JWT Protected)
-DELETE http://localhost:3000/users/6952805027c8be82ee287412
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTI4MDdhMjdjOGJlODJlZTI4NzQxNiIsImlhdCI6MTc2NzAxNTE3NCwiZXhwIjoxNzY3MTAxNTc0fQ.CVQVP-sapzjMy5ti-Xh8rHu1NbMAuYBX4Ixmd1WkwnI
+### Register User
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
+{
+  "name": "Kaushal",
+  "email": "kaushal@gmail.com",
+  "password": "123456"
+}
+
+###
+
+### Login User
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "kaushal@gmail.com",
+  "password": "123456"
+}
+
+###
+
+### Get User Profile (JWT Protected)
+GET http://localhost:3000/users/profile
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Update User Profile (JWT Protected)
+PUT http://localhost:3000/users/profile
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+
+{
+  "name": "Kaushal Updated",
+  "password": "newpass123"
+}
+
+###
+
+### Get All Users (Admin Only)
+GET http://localhost:3000/users
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Soft Delete User (JWT Protected)
+DELETE http://localhost:3000/users/USER_ID
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Hard Delete User
+DELETE http://localhost:3000/users/hard/USER_ID
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Search Users by Name
+GET http://localhost:3000/users/search/name?name=ka
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Search Users by Email
+GET http://localhost:3000/users/search/email?email=gmail
+Authorization: Bearer <JWT_TOKEN>
+
+###
+
+### Paginate Users (5 per page)
+GET http://localhost:3000/users/paginate?page=1
+Authorization: Bearer <JWT_TOKEN>

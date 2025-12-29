@@ -1,15 +1,8 @@
-// import { NestFactory } from '@nestjs/core';
-// import { AppModule } from './app.module';
-
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(process.env.PORT ?? 3000);
-// }
-// bootstrap();
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { LoggerMiddleware } from './common/logger.middleware';
+import { ResponseInterceptor } from './common/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +14,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.use(new LoggerMiddleware().use);
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   await app.listen(3000);
 }

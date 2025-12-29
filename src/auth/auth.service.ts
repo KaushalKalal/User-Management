@@ -11,12 +11,19 @@ export class AuthService {
   ) {}
 
   async register(data: any) {
+    const existing = await this.usersService.findByEmail(data.email);
+
+    if (existing) {
+      throw new UnauthorizedException('Email already exists');
+    }
+
     const hash = await bcrypt.hash(data.password, 10);
 
     const user = await this.usersService.create({
       name: data.name,
       email: data.email,
       password: hash,
+      role: 'user',
     });
 
     return {
@@ -36,7 +43,7 @@ export class AuthService {
     const ok = await bcrypt.compare(data.password, user.password);
     if (!ok) throw new UnauthorizedException('Invalid Credentials');
 
-    const token = this.jwt.sign({ id: user._id });
+    const token = this.jwt.sign({ id: user._id, role: user.role });
 
     return {
       message: 'Login successful',

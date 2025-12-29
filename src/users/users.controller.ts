@@ -9,8 +9,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from './current-user.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -27,8 +29,8 @@ export class UsersController {
   updateProfile(@CurrentUser() user: any, @Body() body: any) {
     return this.usersService.updateProfile(user.id, body);
   }
-
   @UseGuards(JwtAuthGuard)
+  @Roles('admin')
   @Get()
   getAllUsers() {
     return this.usersService.findAll();
@@ -41,9 +43,15 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('search')
-  search(@Query('query') query: string) {
-    return this.usersService.searchUsers(query);
+  @Get('search/name')
+  searchByName(@Query('name') name: string) {
+    return this.usersService.searchByName(name);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('search/email')
+  searchByEmail(@Query('email') email: string) {
+    return this.usersService.searchByEmail(email);
   }
 
   @UseGuards(JwtAuthGuard)
