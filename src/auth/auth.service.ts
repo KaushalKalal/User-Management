@@ -31,10 +31,10 @@ export class AuthService {
 
   async login(data: any) {
     const user = await this.usersService.findByEmail(data.email);
-    if (!user) throw new UnauthorizedException('Invalid email or password');
+    if (!user) throw new UnauthorizedException('Invalid Credentials');
 
     const ok = await bcrypt.compare(data.password, user.password);
-    if (!ok) throw new UnauthorizedException('Invalid email or password');
+    if (!ok) throw new UnauthorizedException('Invalid Credentials');
 
     const token = this.jwt.sign({ id: user._id });
 
