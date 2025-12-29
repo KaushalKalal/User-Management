@@ -29,7 +29,8 @@ export class UsersController {
   updateProfile(@CurrentUser() user: any, @Body() body: any) {
     return this.usersService.updateProfile(user.id, body);
   }
-  @UseGuards(JwtAuthGuard)
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Get()
   getAllUsers() {
